@@ -1,3 +1,15 @@
 .c {
   text-align: center;
 }
+
+button,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+p {
+  font-family: 'Raleway', sans-serif;
+}
