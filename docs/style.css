@@ -1,5 +1,9 @@
 .c {
-  text-align: right;
+  text-align: left;
+}
+
+.cc {
+  text-align: center;
 }
 
 button,
