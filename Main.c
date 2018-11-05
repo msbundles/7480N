@@ -125,6 +125,7 @@ void pre_auton()
 
 task autonomous()
 {
+//Clearing the encoders before auton
 clearENC();
 }
 /*---------------------------------------------------------------------------*/
