@@ -82,11 +82,11 @@ void clearLCD(){
 }
 void clearENC(){
 	resetMotorEncoder(Fr);
-  resetMotorEncoder(Fl);
-  resetMotorEncoder(Br);
-  resetMotorEncoder(Bl);
-  resetMotorEncoder(ForKt);
-  resetMotorEncoder(ForKb);
+	resetMotorEncoder(Fl);
+	resetMotorEncoder(Br);
+	resetMotorEncoder(Bl);
+	resetMotorEncoder(ForKt);
+	resetMotorEncoder(ForKb);
 }
 // This code is for the VEX cortex platform
 #pragma platform(VEX2)
@@ -125,8 +125,8 @@ void pre_auton()
 
 task autonomous()
 {
-//Clearing the encoders before auton
-clearENC();
+	//Clearing the encoders before auton
+	clearENC();
 }
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
