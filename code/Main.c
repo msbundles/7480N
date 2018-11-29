@@ -206,8 +206,11 @@ task usercontrol()
 	{
 		displayLCDCenteredString(0, "Its not delivery");
 		displayLCDCenteredString(1, "its digorno");
-		drive();
 		ifs();
+		motor[Fr] = vexRT[Ch2];
+ 		motor[Br] = vexRT[Ch2];
+ 		motor[Fl] = vexRT[Ch3];
+ 		motor[Bl] = vexRT[Ch3];
 	}
 }
 /*
