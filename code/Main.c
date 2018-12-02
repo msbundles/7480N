@@ -65,7 +65,7 @@ void ifs(){
 	else{
 		motor[Lift] = 0;
 	}
-if(vexRT[Btn5U] == 1){
+	if(vexRT[Btn5U] == 1){
 		motor[Fork] = 60;
 	}
 	else if(vexRT[Btn5D] == 1){
@@ -96,11 +96,16 @@ void clearLCD(){
 /*---------------------------------------------------------------------------*/
 void pre_auton()
 {
-	//This is my br atun clearing LCD and turning on backlight
-	bStopTasksBetweenModes = false;
-	bLCDBacklight = true;
-	clearLCD();
+	//starting milan
 	startTask(milan);
+	// House keeping things.
+	bDisplayCompetitionStatusOnLcd = false;
+	bStopTasksBetweenModes = true;
+	//Turning lcd backlight on
+	bLCDBacklight = true;
+	//clearing lcd
+	clearLCD();
+
 }
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
@@ -112,16 +117,20 @@ void pre_auton()
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 task autonomous(){
-stopTask(milan);	
-forward();
+	stopTask(milan);
+	//Flag toggle
+	forward();
 	sleep(2000);
 	stopMotors();
+	//Getting in position for parking
 	backward();
 	sleep(2500);
 	stopMotors();
+	// turning twards platform
 	turnR();
 	sleep(2000);
 	stopMotors();
+	//Parking on platform
 	forward();
 	sleep(2000);
 	stopMotors();
@@ -136,6 +145,7 @@ forward();
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 /*
+Extra driver cide in case it gets lost.
 motor[Fr] = vexRT[Ch2];
 motor[Br] = vexRT[Ch2];
 motor[Fl] = vexRT[Ch3];
@@ -146,7 +156,9 @@ task usercontrol()
 	startTask(milan);
 	while (true)
 	{
+		//code for joystick buttons
 		ifs();
+		//code for joysticks
 		motor[Fr] = vexRT[Ch2];
 		motor[Br] = vexRT[Ch2];
 		motor[Fl] = vexRT[Ch3];
