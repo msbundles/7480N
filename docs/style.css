@@ -3,6 +3,10 @@
   font-size: 20px;
 }
 
+.cc{
+	text-align: center;
+}
+
 button,
 h1,
 h2,
@@ -14,21 +18,8 @@ li,
 p {
   font-family: 'Raleway', sans-serif;
 }
-#menu-outer {
-	height: 84px;
 
-}
 
 .table {
-	display: table;   /* Allow the centering to work */
-	margin: 0 auto;
+	text-align: center;
 }
-
-ul#horiz-list {
-	min-width: 696px;
-	list-style: none;
-	padding-top: 20px;
-	}
-	ul#horiz-list li {
-    vertical-align: middle;
-	}
