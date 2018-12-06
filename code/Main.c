@@ -137,6 +137,12 @@ void pre_auton()
 	//Loop while center button is not pressed
 	while(nLCDButtons != centerButton)
 	{
+		if(count > 0){
+			count = 0;
+		}
+		if(count < 1){
+			count = 1;
+		}
 		//Switch case that allows the user to choose from 4 different options
 		switch(count){
 		case 0:
@@ -176,92 +182,92 @@ void pre_auton()
 		}
 	}
 }
-		/*---------------------------------------------------------------------------*/
-		/*                                                                           */
-		/*                              Autonomous Task                              */
-		/*                                                                           */
-		/*  This task is used to control your robot during the autonomous phase of   */
-		/*  a VEX Competition.                                                       */
-		/*                                                                           */
-		/*  You must modify the code to add your own robot specific commands here.   */
-		/*---------------------------------------------------------------------------*/
-		task autonomous(){
-			clearLCDLine(0);
-			clearLCDLine(1);
-			//Switch Case that actually runs the user choice
-			switch(count){
-			case 0:
-				//If count = 0, run the code correspoinding with choice 1
-				displayLCDCenteredString(0, "RED");
-				displayLCDCenteredString(1, "is running!");
-				//Flag toggle
-				forwardd();
-				sleep(2000);
-				stopMotors();
-				//Getting in position for parking
-				backwardd();
-				sleep(2500);
-				stopMotors();
-				// turning twards platform
-				turnR();
-				sleep(2000);
-				stopMotors();
-				//Parking on platform
-				forward();
-				sleep(2000);
-				stopMotors();
-				break;
-			case 1:
-				//If count = 1, run the code correspoinding with choice 2
-				displayLCDCenteredString(0, "BLUE");
-				displayLCDCenteredString(1, "is running!");
-				//Flag toggle
-				forward();
-				sleep(2000);
-				stopMotors();
-				//Getting in position for parking
-				backward();
-				sleep(2500);
-				stopMotors();
-				// turning twards platform
-				turnL();
-				sleep(2000);
-				stopMotors();
-				//Parking on platform
-				forward();
-				sleep(2000);
-				stopMotors();
-				break;
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*                              Autonomous Task                              */
+/*                                                                           */
+/*  This task is used to control your robot during the autonomous phase of   */
+/*  a VEX Competition.                                                       */
+/*                                                                           */
+/*  You must modify the code to add your own robot specific commands here.   */
+/*---------------------------------------------------------------------------*/
+task autonomous(){
+	clearLCDLine(0);
+	clearLCDLine(1);
+	//Switch Case that actually runs the user choice
+	switch(count){
+	case 0:
+		//If count = 0, run the code correspoinding with choice 1
+		displayLCDCenteredString(0, "RED");
+		displayLCDCenteredString(1, "is running!");
+		//Flag toggle
+		forwardd();
+		sleep(2000);
+		stopMotors();
+		//Getting in position for parking
+		backwardd();
+		sleep(2500);
+		stopMotors();
+		// turning twards platform
+		turnR();
+		sleep(2000);
+		stopMotors();
+		//Parking on platform
+		forward();
+		sleep(2000);
+		stopMotors();
+		break;
+	case 1:
+		//If count = 1, run the code correspoinding with choice 2
+		displayLCDCenteredString(0, "BLUE");
+		displayLCDCenteredString(1, "is running!");
+		//Flag toggle
+		forward();
+		sleep(2000);
+		stopMotors();
+		//Getting in position for parking
+		backward();
+		sleep(2500);
+		stopMotors();
+		// turning twards platform
+		turnL();
+		sleep(2000);
+		stopMotors();
+		//Parking on platform
+		forward();
+		sleep(2000);
+		stopMotors();
+		break;
 
-			}
-		}
-			/*---------------------------------------------------------------------------*/
-			/*                                                                           */
-			/*                              User Control Task                            */
-			/*                                                                           */
-			/*  This task is used to control your robot during the user control phase of */
-			/*  a VEX Competition.                                                       */
-			/*                                                                           */
-			/*  You must modify the code to add your own robot specific commands here.   */
-			/*---------------------------------------------------------------------------*/
-			/*
-			Extra driver cide in case it gets lost.
-			motor[Fr] = vexRT[Ch2];
-			motor[Br] = vexRT[Ch2];
-			motor[Fl] = vexRT[Ch3];
-			motor[Bl] = vexRT[Ch3];
-			*/
-			task usercontrol()
-			{
-				startTask(milan);
-				while (true)
-				{
-					//code for joystick buttons
-					ifs();
-					//code for joysticks
-					motor[Fr] = vexRT[Ch2];
-					motor[Br] = vexRT[Ch2];
-					motor[Fl] = vexRT[Ch3];
-					motor[Bl] = vexRT[Ch3];
-				}
-			}
+	}
+}
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*                              User Control Task                            */
+/*                                                                           */
+/*  This task is used to control your robot during the user control phase of */
+/*  a VEX Competition.                                                       */
+/*                                                                           */
+/*  You must modify the code to add your own robot specific commands here.   */
+/*---------------------------------------------------------------------------*/
+/*
+Extra driver cide in case it gets lost.
+motor[Fr] = vexRT[Ch2];
+motor[Br] = vexRT[Ch2];
+motor[Fl] = vexRT[Ch3];
+motor[Bl] = vexRT[Ch3];
+*/
+task usercontrol()
+{
+	startTask(milan);
+	while (true)
+	{
+		//code for joystick buttons
+		ifs();
+		//code for joysticks
+		motor[Fr] = vexRT[Ch2];
+		motor[Br] = vexRT[Ch2];
+		motor[Fl] = vexRT[Ch3];
+		motor[Bl] = vexRT[Ch3];
+	}
+}
