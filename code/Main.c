@@ -36,6 +36,7 @@ ForK = Fork Lift
 //task to be lit
 /*
 task milan(){
+while(1){
 displayLCDCenteredString(0,"Proud NRA");
 displayLCDCenteredString(1,"Member");
 sleep(2000);
