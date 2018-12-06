@@ -34,16 +34,17 @@ Bl = Back Left
 ForK = Fork Lift
 */
 //task to be lit
+/*
 task milan(){
-	while(1){
-		displayLCDCenteredString(0,"Proud NRA");
-		displayLCDCenteredString(1,"Member");
-		sleep(2000);
-		displayLCDCenteredString(0,"Prius Lives");
-		displayLCDCenteredString(1,"Matter");
-		sleep(2000);
-	}
+displayLCDCenteredString(0,"Proud NRA");
+displayLCDCenteredString(1,"Member");
+sleep(2000);
+displayLCDCenteredString(0,"Prius Lives");
+displayLCDCenteredString(1,"Matter");
+sleep(2000);
 }
+}
+*/
 //Makes robot go forward for auton
 void forwardd(){
 	motor[Fr] = 127;
@@ -140,12 +141,22 @@ void pre_auton()
 		if(count > 0){
 			count = 0;
 		}
-		if(count < 1){
-			count = 1;
+		if(count < 2){
+			count = 2;
 		}
 		//Switch case that allows the user to choose from 4 different options
 		switch(count){
 		case 0:
+			while(nLCDButtons != rightButton){
+				displayLCDCenteredString(0,"Proud NRA");
+				displayLCDCenteredString(1,"Member");
+				sleep(2000);
+				displayLCDCenteredString(0,"Prius Lives");
+				displayLCDCenteredString(1,"Matter");
+				sleep(2000);
+			}
+			break;
+		case 1:
 			//Display first choice
 			displayLCDCenteredString(0, "RED");
 			displayLCDCenteredString(1, "<		 Enter		>");
@@ -162,7 +173,7 @@ void pre_auton()
 				count++;
 			}
 			break;
-		case 1:
+		case 2:
 			//Display second choice
 			displayLCDCenteredString(0, "BLUE");
 			displayLCDCenteredString(1, "<		 Enter		>");
@@ -196,7 +207,7 @@ task autonomous(){
 	clearLCDLine(1);
 	//Switch Case that actually runs the user choice
 	switch(count){
-	case 0:
+	case 1:
 		//If count = 0, run the code correspoinding with choice 1
 		displayLCDCenteredString(0, "RED");
 		displayLCDCenteredString(1, "is running!");
@@ -217,7 +228,7 @@ task autonomous(){
 		sleep(2000);
 		stopMotors();
 		break;
-	case 1:
+	case 2:
 		//If count = 1, run the code correspoinding with choice 2
 		displayLCDCenteredString(0, "BLUE");
 		displayLCDCenteredString(1, "is running!");
@@ -259,7 +270,7 @@ motor[Bl] = vexRT[Ch3];
 */
 task usercontrol()
 {
-	startTask(milan);
+	//startTask(milan);
 	while (true)
 	{
 		//code for joystick buttons
