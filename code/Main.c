@@ -92,10 +92,10 @@ void ifs(){
 		motor[Lift] = 0;
 	}
 	if(vexRT[Btn5U] == 1){
-		motor[Fork] = 60;
+		motor[Fork] = -60;
 	}
 	else if(vexRT[Btn5D] == 1){
-		motor[Fork] =  -60;
+		motor[Fork] =  60;
 	}
 	else{
 		motor[Fork] = 0;
@@ -139,25 +139,9 @@ void pre_auton()
 	//Loop while center button is not pressed
 	while(nLCDButtons != centerButton)
 	{
-		if(count > 0){
-			count = 0;
-		}
-		if(count < 2){
-			count = 2;
-		}
 		//Switch case that allows the user to choose from 4 different options
 		switch(count){
 		case 0:
-			while(nLCDButtons != rightButton){
-				displayLCDCenteredString(0,"Proud NRA");
-				displayLCDCenteredString(1,"Member");
-				sleep(2000);
-				displayLCDCenteredString(0,"Prius Lives");
-				displayLCDCenteredString(1,"Matter");
-				sleep(2000);
-			}
-			break;
-		case 1:
 			//Display first choice
 			displayLCDCenteredString(0, "RED");
 			displayLCDCenteredString(1, "<		 Enter		>");
@@ -174,7 +158,7 @@ void pre_auton()
 				count++;
 			}
 			break;
-		case 2:
+		case 1:
 			//Display second choice
 			displayLCDCenteredString(0, "BLUE");
 			displayLCDCenteredString(1, "<		 Enter		>");
@@ -208,7 +192,7 @@ task autonomous(){
 	clearLCDLine(1);
 	//Switch Case that actually runs the user choice
 	switch(count){
-	case 1:
+	case 0:
 		//If count = 0, run the code correspoinding with choice 1
 		displayLCDCenteredString(0, "RED");
 		displayLCDCenteredString(1, "is running!");
@@ -225,20 +209,20 @@ task autonomous(){
 		sleep(2000);
 		stopMotors();
 		//Parking on platform
-		forward();
+		forwardd();
 		sleep(2000);
 		stopMotors();
 		break;
-	case 2:
+	case 1:
 		//If count = 1, run the code correspoinding with choice 2
 		displayLCDCenteredString(0, "BLUE");
 		displayLCDCenteredString(1, "is running!");
 		//Flag toggle
-		forward();
+		forwardd();
 		sleep(2000);
 		stopMotors();
 		//Getting in position for parking
-		backward();
+		backwardd();
 		sleep(2500);
 		stopMotors();
 		// turning twards platform
@@ -246,7 +230,7 @@ task autonomous(){
 		sleep(2000);
 		stopMotors();
 		//Parking on platform
-		forward();
+		forwardd();
 		sleep(2000);
 		stopMotors();
 		break;
@@ -282,4 +266,6 @@ task usercontrol()
 		motor[Fl] = vexRT[Ch3];
 		motor[Bl] = vexRT[Ch3];
 	}
+
 }
+
