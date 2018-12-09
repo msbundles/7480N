@@ -142,10 +142,10 @@ void resetEnc(){
 }
 void drive(int Fri,int Fli,int Bri,int Bli,int distance){
 	while(getMotorEncoder(Fr)&&getMotorEncoder(Fl)&&getMotorEncoder(Br)&&getMotorEncoder(Bl)<distance){
-	motor[Fr] = Fri;
-	motor[Fl] = Fli;
-	motor[Br] = Bri;
-	motor[Bl] = Bli;
+		motor[Fr] = Fri;
+		motor[Fl] = Fli;
+		motor[Br] = Bri;
+		motor[Bl] = Bli;
 	}
 	stopMotors();
 }
@@ -174,7 +174,8 @@ void pre_auton()
 	bLCDBacklight = true;
 	//clearing lcd
 	clearLCD();
-
+	//clearing encoders
+	resetEnc();
 
 	//------------- Beginning of User Interface Code ---------------
 	//Clear LCD
@@ -221,6 +222,10 @@ void pre_auton()
 			break;
 		}
 	}
+	clearLCD();
+	displayLCDCenteredString(0, "Good Luck!!");
+	displayLCDCenteredString(1, "Murphy's Law;)");
+
 }
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
@@ -232,8 +237,8 @@ void pre_auton()
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 task autonomous(){
-	clearLCDLine(0);
-	clearLCDLine(1);
+	//clearing encoders
+	resetEnc();
 	//Switch Case that actually runs the user choice
 	switch(count){
 	case 0:
