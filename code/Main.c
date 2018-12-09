@@ -47,6 +47,7 @@ sleep(2000);
 }
 */
 //Makes robot go forward for auton
+/*
 void forwardd(){
 	motor[Fr] = 127;
 	motor[Fl] = 127;
@@ -81,6 +82,27 @@ void stopMotors(){
 	motor[Bl] = 0;
 }
 
+//If count = 0, run the code correspoinding with choice 1
+		displayLCDCenteredString(0, "RED");
+		displayLCDCenteredString(1, "is running!");
+		//Flag toggle
+		forwardd();
+		sleep(2000);
+		stopMotors();
+		//Getting in position for parking
+		backwardd();
+		sleep(2500);
+		stopMotors();
+		// turning twards platform
+		turnR();
+		sleep(2000);
+		stopMotors();
+		//Parking on platform
+		forwardd();
+		sleep(2000);
+		stopMotors();
+		break;
+*/
 void ifs(){
 	if(vexRT[Btn6U] == 1){
 		motor[Lift] = - 127;
@@ -193,47 +215,9 @@ task autonomous(){
 	//Switch Case that actually runs the user choice
 	switch(count){
 	case 0:
-		//If count = 0, run the code correspoinding with choice 1
-		displayLCDCenteredString(0, "RED");
-		displayLCDCenteredString(1, "is running!");
-		//Flag toggle
-		forwardd();
-		sleep(2000);
-		stopMotors();
-		//Getting in position for parking
-		backwardd();
-		sleep(2500);
-		stopMotors();
-		// turning twards platform
-		turnR();
-		sleep(2000);
-		stopMotors();
-		//Parking on platform
-		forwardd();
-		sleep(2000);
-		stopMotors();
-		break;
+		
 	case 1:
-		//If count = 1, run the code correspoinding with choice 2
-		displayLCDCenteredString(0, "BLUE");
-		displayLCDCenteredString(1, "is running!");
-		//Flag toggle
-		forwardd();
-		sleep(2000);
-		stopMotors();
-		//Getting in position for parking
-		backwardd();
-		sleep(2500);
-		stopMotors();
-		// turning twards platform
-		turnL();
-		sleep(2000);
-		stopMotors();
-		//Parking on platform
-		forwardd();
-		sleep(2000);
-		stopMotors();
-		break;
+		
 
 	}
 }
