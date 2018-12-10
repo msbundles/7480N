@@ -240,6 +240,10 @@ task autonomous(){
 	//clearing encoders
 	resetEnc();
 	//Switch Case that actually runs the user choice
+	/*
+	drive(FR,FL,BR,BL,Distance);
+	http://www.robotc.net/wikiarchive/Tutorials/Arduino_Projects/Mobile_Robotics/VEX/Using_encoders_to_drive_some_distance
+	*/
 	switch(count){
 	case 0:
 
