@@ -148,6 +148,7 @@ void drive(int Fri,int Fli,int Bri,int Bli,int distance){
 		motor[Bl] = Bli;
 	}
 	stopMotors();
+	resetEnc();
 }
 // This code is for the VEX cortex platform
 #pragma platform(VEX2)
