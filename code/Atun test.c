@@ -1,38 +1,42 @@
 #pragma config(UART_Usage, UART1, uartVEXLCD, baudRate19200, IOPins, None, None)
 #pragma config(UART_Usage, UART2, uartNotUsed, baudRate4800, IOPins, None, None)
-#pragma config(Motor,  port2,           Fr,            tmotorVex393_MC29, openLoop, reversed)
-#pragma config(Motor,  port3,           Fl,            tmotorVex393_MC29, openLoop)
-#pragma config(Motor,  port5,           Bl,            tmotorVex393_MC29, openLoop)
-#pragma config(Motor,  port6,           ForKt,         tmotorVex393_MC29, openLoop)
-#pragma config(Motor,  port8,           Br,            tmotorVex393_MC29, openLoop, reversed)
+#pragma config(I2C_Usage, I2C1, i2cSensors)
+#pragma config(Sensor, I2C_1,  FR,             sensorQuadEncoderOnI2CPort,    , AutoAssign )
+#pragma config(Sensor, I2C_2,  FL,             sensorQuadEncoderOnI2CPort,    , AutoAssign )
+#pragma config(Sensor, I2C_3,  BL,             sensorQuadEncoderOnI2CPort,    , AutoAssign )
+#pragma config(Sensor, I2C_4,  BR,             sensorQuadEncoderOnI2CPort,    , AutoAssign )
+#pragma config(Motor,  port2,           Fr,            tmotorVex393_MC29, openLoop, reversed, encoderPort, I2C_1)
+#pragma config(Motor,  port3,           Fl,            tmotorVex393_MC29, openLoop, encoderPort, I2C_2)
+#pragma config(Motor,  port5,           Bl,            tmotorVex393_MC29, openLoop, encoderPort, I2C_3)
+#pragma config(Motor,  port6,           Lift,          tmotorVex393_MC29, openLoop)
+#pragma config(Motor,  port7,           Fork,          tmotorVex393_MC29, openLoop)
+#pragma config(Motor,  port8,           Br,            tmotorVex393_MC29, openLoop, reversed, encoderPort, I2C_4)
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
 /*        Description: Competition template for VEX EDR                      */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
-void forward(){
-	motor[Fr] = 127;
-	motor[Fl] = 127;
-	motor[Br] = 127;
-	motor[Bl] = 127;
+void resetEnc(){
+	resetMotorEncoder(Fr);
+	resetMotorEncoder(Fl);
+	resetMotorEncoder(Br);
+	resetMotorEncoder(Bl);
 }
-void backward(){
-	motor[Fr] = -127;
-	motor[Fl] = -127;
-	motor[Br] = -127;
-	motor[Bl] = -127;
+void drive(int Fri,int Fli,int Bri,int Bli,int distance){
+	while(getMotorEncoder(Fr)&&getMotorEncoder(Fl)&&getMotorEncoder(Br)&&getMotorEncoder(Bl)<distance){
+		motor[Fr] = Fri;
+		motor[Fl] = Fli;
+		motor[Br] = Bri;
+		motor[Bl] = Bli;
+	}
+	stopMotors();
+	resetEnc();
 }
 void stopMotors(){
 	motor[Fr] = 0;
 	motor[Fl] = 0;
 	motor[Br] = 0;
 	motor[Bl] = 0;
-}
-void turnR(){
-	motor[Fr] = -127;
-	motor[Fl] = 127;
-	motor[Br] = -127;
-	motor[Bl] = 127;
 }
 // This code is for the VEX cortex platform
 #pragma platform(VEX2)
@@ -67,6 +71,8 @@ void pre_auton()
 
 	// All activities that occur before the competition starts
 	// Example: clearing encoders, setting servo positions, ...
+	stopMotors();
+	resetEnc();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -81,18 +87,7 @@ void pre_auton()
 
 task autonomous()
 {
-	forward();
-	sleep(2000);
-	stopMotors();
-	backward();
-	sleep(2500);
-	stopMotors();
-	turnR();
-	sleep(2000);
-	stopMotors();
-	forward();
-	sleep(2000);
-	stopMotors();
+
 }
 
 /*---------------------------------------------------------------------------*/
