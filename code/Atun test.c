@@ -32,7 +32,12 @@ void drive(int Fri,int Fli,int Bri,int Bli,int distance){
 	stopMotors();
 	resetEnc();
 }
-
+void breakk(int time,int dir){
+	motor[Fr] = 0;
+	motor[Fl] = 0;
+	motor[Br] = 0;
+	motor[Bl] = 0;
+}
 
 // This code is for the VEX cortex platform
 #pragma platform(VEX2)
@@ -83,8 +88,12 @@ void pre_auton()
 
 task autonomous()
 {
-drive(127,127,127,127,2200);
-drive(-127,-127,-127,-127,2270);
+	resetEnc();
+	drive(127,127,127,127,2200);
+	drive(-127,-127,-127,-127,2700);
+	
+	drive(127,-127,127,-127,1250);
+	drive(127,127,127,127,1200);
 }
 
 /*---------------------------------------------------------------------------*/
