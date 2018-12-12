@@ -135,7 +135,7 @@ void resetEnc(){
 	resetMotorEncoder(Bl);
 }
 void drive(int Fri,int Fli,int Bri,int Bli,int distance){
-	while(getMotorEncoder(Bl)<distance){
+	while(abs(getMotorEncoder(Bl))<distance){
 		motor[Fr] = Fri;
 		motor[Fl] = Fli;
 		motor[Br] = Bri;
