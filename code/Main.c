@@ -4,7 +4,7 @@
 #pragma config(Sensor, I2C_1,  BL,             sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Motor,  port2,           Fr,            tmotorVex393_MC29, openLoop, reversed)
 #pragma config(Motor,  port3,           Fl,            tmotorVex393_MC29, openLoop)
-#pragma config(Motor,  port5,           Bl,            tmotorVex393_MC29, openLoop, encoderPort, I2C_1)
+#pragma config(Motor,  port5,           Bl,            tmotorVex393_MC29, PIDControl, encoderPort, I2C_1)
 #pragma config(Motor,  port6,           Lift,          tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port7,           Fork,          tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port8,           Br,            tmotorVex393_MC29, openLoop, reversed)
@@ -241,10 +241,18 @@ task autonomous(){
 	*/
 	switch(count){
 	case 0:
-
+		resetEnc();
+		drive(100,100,100,100,2200);
+		drive(-100,-100,-100,-100,2700);
+		drive(100,-100,100,-100,1250);
+		drive(100,100,100,100,1200);
 		break;
 	case 1:
-
+		resetEnc();
+		drive(100,100,100,100,2200);
+		drive(-100,-100,-100,-100,2700);
+		drive(-100,100,-100,100,1250);
+		drive(100,100,100,100,1200);
 		break;
 	}
 }
