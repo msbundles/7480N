@@ -1,13 +1,13 @@
 #pragma config(UART_Usage, UART1, uartVEXLCD, baudRate19200, IOPins, None, None)
 #pragma config(UART_Usage, UART2, uartNotUsed, baudRate4800, IOPins, None, None)
-#pragma config(I2C_Usage, I2C1, i2cSensors)
-#pragma config(Sensor, I2C_1,  BL,             sensorQuadEncoderOnI2CPort,    , AutoAssign )
+#pragma config(Sensor, in2,    Lf,             sensorLineFollower)
+#pragma config(Sensor, dgtl1,  Button,         sensorTouch)
 #pragma config(Motor,  port2,           Fr,            tmotorVex393_MC29, openLoop, reversed)
 #pragma config(Motor,  port3,           Fl,            tmotorVex393_MC29, openLoop)
-#pragma config(Motor,  port5,           Bl,            tmotorVex393_MC29, openLoop, encoderPort, I2C_1)
-#pragma config(Motor,  port6,           Lift,          tmotorVex393_MC29, openLoop)
+#pragma config(Motor,  port6,           Ball,          tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port7,           Fork,          tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port8,           Br,            tmotorVex393_MC29, openLoop, reversed)
+#pragma config(Motor,  port9,           Bl,            tmotorVex393_MC29, openLoop)
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
 /*        Description: Competition template for VEX EDR                      */
@@ -19,24 +19,36 @@ void stopMotors(){
 	motor[Br] = 0;
 	motor[Bl] = 0;
 }
-void resetEnc(){
-	resetMotorEncoder(Bl);
+void resetGyro(){
+	SensorType[in3] = sensorNone;
+	wait1Msec(1000);
+	SensorType[in3] = sensorGyro;
+	wait1Msec(2000);
 }
-void drive(int Fri,int Fli,int Bri,int Bli,int distance){
-	while(abs(getMotorEncoder(Bl))<distance){
-		motor[Fr] = Fri;
-		motor[Fl] = Fli;
-		motor[Br] = Bri;
-		motor[Bl] = Bli;
+//Finction to turn whith gyro
+void gyroTurn(int r,int l,int input){
+	int deg = input*100;
+	while(SensorValue[in1] < deg){
+		motor[Fr] = r;
+		motor[Fl] = l;
+		motor[Br] = r;
+		motor[Bl] = l;
 	}
 	stopMotors();
-	resetEnc();
 }
-void breakk(int time,int dir){
-	motor[Fr] = 0;
-	motor[Fl] = 0;
-	motor[Br] = 0;
-	motor[Bl] = 0;
+//function to move until button is pressed
+void buttMove(int r,int l,int inc){
+	int count = 0;
+	while(inc != count){
+		if(SensorValue[Button] == 1){
+			count++;
+		}
+		motor[Fr] = r;
+		motor[Br] = r;
+		motor[Fl] = l;
+		motor[Bl] = l;
+	}
+	stopMotors();
 }
 
 // This code is for the VEX cortex platform
@@ -72,8 +84,7 @@ void pre_auton()
 
 	// All activities that occur before the competition starts
 	// Example: clearing encoders, setting servo positions, ...
-	stopMotors();
-	resetEnc();
+	resetGyro();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -88,12 +99,7 @@ void pre_auton()
 
 task autonomous()
 {
-	resetEnc();
-	drive(127,127,127,127,2200);
-	drive(-127,-127,-127,-127,2700);
 	
-	drive(127,-127,127,-127,1250);
-	drive(127,127,127,127,1200);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -109,7 +115,7 @@ task autonomous()
 task usercontrol()
 {
 	// User control code here, inside the loop
-
+resetGyro();
 	while (true)
 	{
 		// This is the main execution loop for the user control program.
@@ -122,6 +128,6 @@ task usercontrol()
 		// ........................................................................
 
 		// Remove this function call once you have "real" code.
-		UserControlCodePlaceholderForTesting();
+
 	}
 }
