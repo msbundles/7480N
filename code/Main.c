@@ -37,10 +37,10 @@ void ifs(){
 		motor[Ball] = 0;
 	}
 	if(vexRT[Btn5U] == 1){
-		motor[Fork] = -60;
+		motor[Fork] = -45;
 	}
 	else if(vexRT[Btn5D] == 1){
-		motor[Fork] =  60;
+		motor[Fork] =  45;
 	}
 	else{
 		motor[Fork] = 0;
@@ -338,7 +338,7 @@ task autonomous()
 		motor[Fl] = 100;
 		motor[Br] = 100;
 		motor[Bl] = 100;
-		sleep(3503);
+		sleep(3000);
 		stopMotors();
 		break;
 		//RED
@@ -347,7 +347,7 @@ task autonomous()
 		motor[Fl] = 100;
 		motor[Br] = 100;
 		motor[Bl] = 100;
-		sleep(3503);
+		sleep(3000);
 		stopMotors();
 		break;
 	}
