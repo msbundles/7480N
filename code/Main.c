@@ -17,15 +17,7 @@ motor[Bl] = Bli;
 }
 
 */
-bool ready = false;
-int red = 0;
-int blue = 0;
-int gray = 0;
-int count = 0;
-//variables and functions for lcd
-const short leftButton = 1;
-const short centerButton = 2;
-const short rightButton = 4;
+
 void ifs(){
 	if(vexRT[Btn8U] == 1){
 		motor[Ball] = - 127;
@@ -43,39 +35,49 @@ void ifs(){
 		motor[Fork] = 0;
 	}
 }
+const short leftButton = 1;
+const short centerButton = 2;
+const short rightButton = 4;
+
+//Wait for Press--------------------------------------------------
 void waitForPress()
 {
-	while(nLCDButtons == 0){}
+	while (nLCDButtons == 0)
+	{
+	}
 	wait1Msec(5);
 }
+//----------------------------------------------------------------
+
+//Wait for Release------------------------------------------------
 void waitForRelease()
 {
-	while(nLCDButtons != 0){}
+	while (nLCDButtons != 0)
+	{
+	}
 	wait1Msec(5);
 }
-//functon to clear lcd
-void clearLCD(){
-	clearLCDLine(0);
-	clearLCDLine(1);
-}
-//finction to stop motors
-void stopMotors(){
+int count = 0;
+void stopMotors()
+{
 	motor[Fr] = 0;
 	motor[Fl] = 0;
 	motor[Br] = 0;
 	motor[Bl] = 0;
 }
-//Function to reset gyro
-void resetGyro(){
-	SensorType[in1] = sensorNone;
+void resetGyro()
+{
+	SensorType[in3] = sensorNone;
 	wait1Msec(1000);
-	SensorType[in1] = sensorGyro;
+	SensorType[in3] = sensorGyro;
 	wait1Msec(2000);
 }
 //Finction to turn whith gyro
-void gyroTurn(int r,int l,int input){
-	int deg = input*100;
-	while(SensorValue[in1] < deg){
+void gyroTurn(int r, int l, int input)
+{
+	int deg = input * 100;
+	while (SensorValue[in3] < deg)
+	{
 		motor[Fr] = r;
 		motor[Fl] = l;
 		motor[Br] = r;
@@ -84,50 +86,40 @@ void gyroTurn(int r,int l,int input){
 	stopMotors();
 }
 //function to move until button is pressed
-void buttMove(int r,int l,int inc){
-	int count = 0;
-	while(inc != count){
-		if(SensorValue[Button] == 1){
-			count++;
-		}
-		motor[Fr] = r;
-		motor[Br] = r;
-		motor[Fl] = l;
-		motor[Bl] = l;
-	}
-	stopMotors();
+void forwardd()
+{
+	motor[Fr] = 100;
+	motor[Fl] = 100;
+	motor[Br] = 100;
+	motor[Bl] = 100;
 }
-//Line follower functions
-void redMove(int r,int l){
-	while(SensorValue[Lf] < red){
-		motor[Fr] = r;
-		motor[Br] = r;
-		motor[Fl] = l;
-		motor[Bl] = l;
-	}
-	stopMotors();
+//Makes robot go backward for auton
+void backwardd()
+{
+	motor[Fr] = -100;
+	motor[Fl] = -100;
+	motor[Br] = -100;
+	motor[Bl] = -100;
 }
-void blueMove(int r,int l){
-	while(SensorValue[Lf] < blue){
-		motor[Fr] = r;
-		motor[Br] = r;
-		motor[Fl] = l;
-		motor[Bl] = l;
-	}
-	stopMotors();
+//Makes robot turn right for auton
+void turnR()
+{
+	motor[Fr] = -100;
+	motor[Fl] = 100;
+	motor[Br] = -100;
+	motor[Bl] = 100;
 }
-void grayMove(int r,int l){
-	while(SensorValue[Lf] < gray){
-		motor[Fr] = r;
-		motor[Br] = r;
-		motor[Fl] = l;
-		motor[Bl] = l;
-	}
-	stopMotors();
+void turnL()
+{
+	motor[Fr] = 100;
+	motor[Fl] = -100;
+	motor[Br] = 100;
+	motor[Bl] = -100;
 }
-void goBall(int speed,int time){
-	motor[Ball] = speed;
-	sleep(time);
+void clearLCD()
+{
+	clearLCDLine(0);
+	clearLCDLine(1);
 }
 // This code is for the VEX cortex platform
 #pragma platform(VEX2)
@@ -150,33 +142,41 @@ void goBall(int speed,int time){
 
 void pre_auton()
 {
-	// Set bStopTasksBetweenModes to false if you want to keep user created tasks
-	// running between Autonomous and Driver controlled modes. You will need to
-	// manage all user created tasks if set to false.
+	//starting milan
+	// House keeping things.
+	bDisplayCompetitionStatusOnLcd = false;
 	bStopTasksBetweenModes = true;
-	ready = false;
+	//Turning lcd backlight on
+	bLCDBacklight = true;
+	//clearing lcd
+	clearLCD();
+	//clearing encoders
+
+	//------------- Beginning of User Interface Code ---------------
+	//Clear LCD
 	clearLCDLine(0);
 	clearLCDLine(1);
 	//Loop while center button is not pressed
-	while(ready == false)
+	while (nLCDButtons != centerButton)
 	{
 		//Switch case that allows the user to choose from 4 different options
-		switch(count){
+		switch (count)
+		{
 		case 0:
 			//Display first choice
-			displayLCDCenteredString(0, "do u need cal ??");
-			displayLCDCenteredString(1, "Yes		        No");
+			displayLCDCenteredString(0, "RED");
+			displayLCDCenteredString(1, "<		 Enter		>");
 			waitForPress();
 			//Increment or decrement "count" based on button press
-			if(nLCDButtons == rightButton)
-			{
-				waitForRelease();
-				count++;
-			}
-			else if(nLCDButtons == leftButton)
+			if (nLCDButtons == leftButton)
 			{
 				waitForRelease();
 				count = 3;
+			}
+			else if (nLCDButtons == rightButton)
+			{
+				waitForRelease();
+				count++;
 			}
 			break;
 		case 1:
@@ -185,134 +185,23 @@ void pre_auton()
 			displayLCDCenteredString(1, "<		 Enter		>");
 			waitForPress();
 			//Increment or decrement "count" based on button press
-			if(nLCDButtons == leftButton)
+			if (nLCDButtons == leftButton)
 			{
 				waitForRelease();
 				count--;
 			}
-			else if(nLCDButtons == rightButton)
+			else if (nLCDButtons == rightButton)
 			{
 				waitForRelease();
 				count++;
 			}
-			else if(nLCDButtons == centerButton)
-			{
-				waitForRelease();
-				ready = true;
-			}
 			break;
-		case 2:
-			//Display first choice
-			displayLCDCenteredString(0, "RED");
-			displayLCDCenteredString(1, "<		 Enter		>");
-			waitForPress();
-			//Increment or decrement "count" based on button press
-			if(nLCDButtons == leftButton)
-			{
-				waitForRelease();
-				count--;
-			}
-			else if(nLCDButtons == rightButton)
-			{
-				waitForRelease();
-				count++;
-			}
-			else if(nLCDButtons == centerButton)
-			{
-				waitForRelease();
-				ready = true;
-			}
-			break;
-		case 3:
-			displayLCDCenteredString(0, "LF cal red");
-			displayLCDCenteredString(1, "<		 Enter		>");
-			waitForPress();
-			//Increment or decrement "count" based on button press
-			if(nLCDButtons == leftButton)
-			{
-				waitForRelease();
-				count--;
-			}
-			else if(nLCDButtons == rightButton)
-			{
-				waitForRelease();
-				count++;
-			}
-			else if(nLCDButtons == centerButton){
-				waitForRelease();
-				red = SensorValue[in2];
-			}
-			break;
-		case 4:
-			displayLCDCenteredString(0, "LF cal blue");
-			displayLCDCenteredString(1, "<		 Enter		>");
-			waitForPress();
-			//Increment or decrement "count" based on button press
-			if(nLCDButtons == leftButton)
-			{
-				waitForRelease();
-				count--;
-			}
-			else if(nLCDButtons == rightButton)
-			{
-				waitForRelease();
-				count++;
-			}
-			else if(nLCDButtons == centerButton){
-				waitForRelease();
-				blue = SensorValue[in2];
-			}
-			break;
-		case 5:
-			displayLCDCenteredString(0, "LF cal gray");
-			displayLCDCenteredString(1, "<		 Enter		>");
-			waitForPress();
-			//Increment or decrement "count" based on button press
-			if(nLCDButtons == leftButton)
-			{
-				waitForRelease();
-				count--;
-			}
-			else if(nLCDButtons == rightButton)
-			{
-				waitForRelease();
-				count++;
-			}
-			else if(nLCDButtons == centerButton){
-				waitForRelease();
-				gray = SensorValue[in2];
-				count = 1;
-			}
-			break;
-		default:
-			//Display second choice
-			displayLCDCenteredString(0, "BLUE");
-			displayLCDCenteredString(1, "<		 Enter		>");
-			waitForPress();
-			//Increment or decrement "count" based on button press
-			if(nLCDButtons == leftButton)
-			{
-				waitForRelease();
-				count--;
-			}
-			else if(nLCDButtons == rightButton)
-			{
-				waitForRelease();
-				count++;
-			}
-			else if(nLCDButtons == centerButton)
-			{
-				waitForRelease();
-				ready = true;
-			}
-			break;
-
 		}
 	}
 	clearLCD();
 	displayLCDCenteredString(0, "Good Luck!!");
 	displayLCDCenteredString(1, "Murphy's Law;)");
-
+	resetGyro();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -328,25 +217,50 @@ void pre_auton()
 task autonomous()
 {
 	resetGyro();
-	switch(count){
+	switch (count)
+	{
+		//RED
+	case 0:
+		resetGyro();
+		//Flag toggle
+		forwardd();
+		sleep(2000);
+		stopMotors();
+		//Getting in position for parking
+		backwardd();
+		sleep(2500);
+		stopMotors();
+		// turning twards platform
+		//gyroTurn(-100,100,-9);
+		turnR();
+		sleep(1650);
+		stopMotors();
+		//Parking on platform
+		forwardd();
+		sleep(1700);
+		stopMotors();
+		break;
 		//BLUE
 	case 1:
-		motor[Fr] = 100;
-		motor[Fl] = 100;
-		motor[Br] = 100;
-		motor[Bl] = 100;
-		sleep(3000);
+		resetGyro();
+		//Flag toggle
+		forwardd();
+		sleep(2000);
+		stopMotors();
+		//Getting in position for parking
+		backwardd();
+		sleep(2500);
+		stopMotors();
+		// turning twards platform
+		turnL();
+		sleep(1650);
+		stopMotors();
+		//Parking on platform
+		forwardd();
+		sleep(1700);
 		stopMotors();
 		break;
-		//RED
-	case 2:
-		motor[Fr] = 100;
-		motor[Fl] = 100;
-		motor[Br] = 100;
-		motor[Bl] = 100;
-		sleep(3000);
-		stopMotors();
-		break;
+	}
 	}
 }
 
