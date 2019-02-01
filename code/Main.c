@@ -19,12 +19,6 @@ motor[Bl] = Bli;
 */
 
 void ifs(){
-	if(vexRT[Btn8U] == 1){
-		motor[Ball] = - 127;
-	}
-	else{
-		motor[Ball] = 0;
-	}
 	if(vexRT[Btn5U] == 1){
 		motor[Fork] = -45;
 	}
@@ -261,8 +255,8 @@ task autonomous()
 		stopMotors();
 		break;
 	}
-	}
 }
+
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
